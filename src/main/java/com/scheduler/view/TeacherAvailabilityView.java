@@ -1,7 +1,7 @@
 package com.scheduler.view;
 
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage; // <-- Updated import
 import com.scheduler.util.TimeRules;
 import com.scheduler.util.UIStyles;
 import javafx.geometry.*;
@@ -12,11 +12,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class TeacherAvailabilityView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage; // <-- Updated variable
     private final String teacherId;
     private final VBox root;
 
-    public TeacherAvailabilityView(FileStorage storage, String teacherId) {
+    // <-- FIXED CONSTRUCTOR (Has both DatabaseStorage and teacherId)
+    public TeacherAvailabilityView(DatabaseStorage storage, String teacherId) {
         this.storage = storage;
         this.teacherId = teacherId;
         this.root = build();
@@ -90,6 +91,8 @@ public class TeacherAvailabilityView {
             teacher.setAvailableTimeSlots(selectedSlots.isEmpty() ? Arrays.asList(TimeRules.TEACHING_SLOTS) : selectedSlots);
             List<Teacher> all = new ArrayList<>(storage.loadTeachers());
             all.replaceAll(t -> t.getTeacherId().equals(teacherId) ? teacher : t);
+            // Note: If you haven't implemented saveTeachers() in DatabaseStorage yet, this might error later.
+            // Just make sure saveTeachers() is in your DatabaseStorage!
             storage.saveTeachers(all);
             new Alert(Alert.AlertType.INFORMATION, "✅ Availability saved!").showAndWait();
         });

@@ -1,7 +1,7 @@
 package com.scheduler.view;
 
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.util.TimeRules;
 import com.scheduler.util.UIStyles;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MergeClassView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final ObservableList<MergedClassOption> list = FXCollections.observableArrayList();
     private final TableView<MergedClassOption> table = new TableView<>();
     private final VBox root;
@@ -23,7 +23,7 @@ public class MergeClassView {
     private ComboBox<String> batchFilterCombo;
     private FilteredList<MergedClassOption> filteredList;
 
-    public MergeClassView(FileStorage storage) {
+    public MergeClassView(DatabaseStorage storage) {
         this.storage = storage;
         this.root = build();
     }

@@ -1,7 +1,7 @@
 package com.scheduler.service;
 
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.storage.StorageService;
 
 import java.time.LocalDate;
@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 public class RoutineGenerator {
 
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final StorageService sService;
 
-    public RoutineGenerator(FileStorage storage) {
+    public RoutineGenerator(DatabaseStorage storage) {
         this.storage = storage;
         this.sService = storage.getStorageService();
     }

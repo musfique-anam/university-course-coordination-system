@@ -62,3 +62,7 @@ out/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# SQLite Database files
+*.db
+*.sqlite

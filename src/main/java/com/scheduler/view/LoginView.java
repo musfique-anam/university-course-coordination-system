@@ -1,35 +1,21 @@
 package com.scheduler.view;
 
 import com.scheduler.auth.AuthService;
-import com.scheduler.storage.FileStorage;
-
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import com.scheduler.storage.DatabaseStorage; // <-- The missing import!
+import javafx.animation.*;
+import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class LoginView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage; // <-- Updated
     private final AuthService authService;
     private final Stage stage;
     private final StackPane root;
@@ -38,7 +24,8 @@ public class LoginView {
     private TextField idField;
     private PasswordField passwordField;
 
-    public LoginView(FileStorage storage, AuthService authService, Stage stage) {
+    // <-- Updated Constructor
+    public LoginView(DatabaseStorage storage, AuthService authService, Stage stage) {
         this.storage = storage;
         this.authService = authService;
         this.stage = stage;
@@ -48,47 +35,41 @@ public class LoginView {
 
     private StackPane build() {
         StackPane pane = new StackPane();
-        // Matching the new Splash Screen background
-        pane.setStyle("-fx-background-color: linear-gradient(to bottom right, #F0F4F8, #CFD8DC);");
+        pane.setStyle("-fx-background-color: linear-gradient(to bottom right, #2B2A33, #1A1A20);");
 
-        // --- CENTER FLOATING CARD ---
-        VBox card = new VBox(20);
+        VBox card = new VBox(22);
         card.setAlignment(Pos.CENTER);
         card.setMaxSize(420, 520);
         card.setPadding(new Insets(45, 50, 45, 50));
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 16;");
+        card.setStyle("-fx-background-color: #383742; -fx-background-radius: 16;"); 
 
-        // Soft drop shadow
         DropShadow shadow = new DropShadow();
-        shadow.setColor(Color.rgb(0, 0, 0, 0.08));
-        shadow.setRadius(25);
-        shadow.setOffsetY(10);
+        shadow.setColor(Color.rgb(0, 0, 0, 0.4));
+        shadow.setRadius(30);
+        shadow.setOffsetY(15);
         card.setEffect(shadow);
 
-        // --- LOGO (Matching Splash) ---
         StackPane logoPane = new StackPane();
         Rectangle rect1 = new Rectangle(32, 32);
         rect1.setArcWidth(10); rect1.setArcHeight(10);
-        rect1.setFill(Color.web("#1565C0"));
+        rect1.setFill(Color.web("#36B1BF")); 
         rect1.setTranslateX(-8); rect1.setTranslateY(-8);
 
         Rectangle rect2 = new Rectangle(32, 32);
         rect2.setArcWidth(10); rect2.setArcHeight(10);
-        rect2.setFill(Color.web("#00BCD4"));
-        rect2.setOpacity(0.85);
+        rect2.setFill(Color.web("#F2A900")); 
+        rect2.setOpacity(0.9);
         rect2.setTranslateX(8); rect2.setTranslateY(8);
         logoPane.getChildren().addAll(rect1, rect2);
 
-        // --- TYPOGRAPHY ---
-        Label loginTitle = new Label("Welcome Back");
-        loginTitle.setStyle("-fx-font-size: 26px; -fx-font-weight: 900; -fx-text-fill: #1A237E;");
+        Label loginTitle = new Label("System Access");
+        loginTitle.setStyle("-fx-font-size: 26px; -fx-font-weight: 900; -fx-text-fill: #FFFFFF;");
         VBox.setMargin(loginTitle, new Insets(10, 0, -5, 0));
 
-        Label loginSub = new Label("Please sign in to continue");
-        loginSub.setStyle("-fx-font-size: 14px; -fx-text-fill: #78909C;");
+        Label loginSub = new Label("Authenticate to continue");
+        loginSub.setStyle("-fx-font-size: 14px; -fx-text-fill: #A6A5B5;");
         VBox.setMargin(loginSub, new Insets(0, 0, 15, 0));
 
-        // --- ROLE SELECTION ---
         ToggleGroup role = new ToggleGroup();
         adminRadio = new RadioButton("Administrator");
         teacherRadio = new RadioButton("Teacher");
@@ -96,7 +77,7 @@ public class LoginView {
         teacherRadio.setToggleGroup(role);
         adminRadio.setSelected(true);
         
-        String radioStyle = "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #455A64; -fx-cursor: hand;";
+        String radioStyle = "-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #E0E0E0; -fx-cursor: hand;";
         adminRadio.setStyle(radioStyle);
         teacherRadio.setStyle(radioStyle);
 
@@ -104,35 +85,31 @@ public class LoginView {
         roleBox.setAlignment(Pos.CENTER);
         VBox.setMargin(roleBox, new Insets(0, 0, 10, 0));
 
-        // --- INPUT FIELDS ---
-        String inputStyle = "-fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-padding: 12 15; -fx-font-size: 14px; -fx-background-color: #FAFAFA;";
-        String inputFocusStyle = "-fx-background-radius: 8; -fx-border-color: #1565C0; -fx-border-radius: 8; -fx-padding: 12 15; -fx-font-size: 14px; -fx-background-color: white; -fx-effect: dropshadow(gaussian, #1565C033, 6, 0, 0, 0);";
+        String inputStyle = "-fx-background-radius: 8; -fx-border-color: #51505C; -fx-border-radius: 8; -fx-padding: 12 15; -fx-font-size: 14px; -fx-background-color: #25242C; -fx-text-fill: white;";
+        String inputFocusStyle = "-fx-background-radius: 8; -fx-border-color: #36B1BF; -fx-border-radius: 8; -fx-padding: 12 15; -fx-font-size: 14px; -fx-background-color: #2B2A33; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(54,177,191,0.3), 8, 0, 0, 0);";
         
         VBox idContainer = new VBox(5);
-        Label idLabel = new Label("User ID");
-        idLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #546E7A;");
+        Label idLabel = new Label("USER ID");
+        idLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #A6A5B5;");
         idField = new TextField();
-        idField.setPromptText("Enter your ID");
         idField.setStyle(inputStyle);
         idField.focusedProperty().addListener((obs, oldVal, newVal) -> idField.setStyle(newVal ? inputFocusStyle : inputStyle));
         idContainer.getChildren().addAll(idLabel, idField);
 
         VBox passContainer = new VBox(5);
-        Label passLabel = new Label("Password");
-        passLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #546E7A;");
+        Label passLabel = new Label("PASSWORD");
+        passLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #A6A5B5;");
         passwordField = new PasswordField();
-        passwordField.setPromptText("••••••••");
         passwordField.setStyle(inputStyle);
         passwordField.focusedProperty().addListener((obs, oldVal, newVal) -> passwordField.setStyle(newVal ? inputFocusStyle : inputStyle));
         passContainer.getChildren().addAll(passLabel, passwordField);
 
-        // --- LOGIN BUTTON ---
-        Button loginBtn = new Button("Sign In");
+        Button loginBtn = new Button("Secure Login");
         loginBtn.setDefaultButton(true);
         loginBtn.setMaxWidth(Double.MAX_VALUE);
         loginBtn.setCursor(javafx.scene.Cursor.HAND);
-        String btnNormal = "-fx-background-color: #1565C0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15px; -fx-padding: 14; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(21,101,192,0.3), 8, 0, 0, 4);";
-        String btnHover = "-fx-background-color: #0D47A1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15px; -fx-padding: 14; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(13,71,161,0.4), 8, 0, 0, 4);";
+        String btnNormal = "-fx-background-color: #36B1BF; -fx-text-fill: #1A1A20; -fx-font-weight: 900; -fx-font-size: 15px; -fx-padding: 14; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(54,177,191,0.3), 10, 0, 0, 4);";
+        String btnHover = "-fx-background-color: #48D1E0; -fx-text-fill: #1A1A20; -fx-font-weight: 900; -fx-font-size: 15px; -fx-padding: 14; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(72,209,224,0.5), 10, 0, 0, 4);";
         
         loginBtn.setStyle(btnNormal);
         loginBtn.setOnMouseEntered(e -> loginBtn.setStyle(btnHover));
@@ -142,7 +119,6 @@ public class LoginView {
 
         card.getChildren().addAll(logoPane, loginTitle, loginSub, roleBox, idContainer, passContainer, loginBtn);
         
-        // Save card reference for animation
         pane.getChildren().add(card);
         pane.getProperties().put("card", card);
 
@@ -188,6 +164,8 @@ public class LoginView {
             fadeOut.setFromValue(1);
             fadeOut.setToValue(0);
             fadeOut.setOnFinished(e -> {
+                // NOTE: AdminDashboard and TeacherDashboard will also need their 
+                // constructors updated to accept DatabaseStorage eventually!
                 if (authService.isAdmin()) {
                     AdminDashboard admin = new AdminDashboard(storage, authService, stage);
                     Scene scene = new Scene(admin.getRoot(), 1366, 768);
@@ -228,7 +206,14 @@ public class LoginView {
         a.setContentText(content);
         
         DialogPane dialogPane = a.getDialogPane();
-        dialogPane.setStyle("-fx-background-color: white; -fx-background-radius: 10;");
+        dialogPane.setStyle("-fx-background-color: #383742; -fx-background-radius: 10; -fx-text-fill: white;");
+        
+        for (Node n : dialogPane.getChildren()) {
+            if (n instanceof Label) {
+                ((Label) n).setTextFill(Color.WHITE);
+            }
+        }
+        
         a.showAndWait();
     }
 

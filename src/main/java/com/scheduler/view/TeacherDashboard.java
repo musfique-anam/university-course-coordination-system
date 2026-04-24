@@ -2,7 +2,7 @@ package com.scheduler.view;
 
 import com.scheduler.auth.AuthService;
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage; // 1. Change to DatabaseStorage
 import com.scheduler.util.UIStyles;
 import javafx.animation.*;
 import javafx.geometry.*;
@@ -16,14 +16,17 @@ import javafx.util.Duration;
 import java.util.Optional;
 
 public class TeacherDashboard {
-    private final FileStorage storage;
+
+    private final DatabaseStorage storage; // 2. Change to DatabaseStorage
     private final AuthService authService;
     private final Stage stage;
     private final BorderPane root;
-    private final StackPane contentPane;
-    private Button activeBtn;
+    private StackPane contentPane;
 
-    public TeacherDashboard(FileStorage storage, AuthService authService, Stage stage) {
+    private Button activeBtn = null;
+
+    // 3. Change to DatabaseStorage
+    public TeacherDashboard(DatabaseStorage storage, AuthService authService, Stage stage) {
         this.storage = storage;
         this.authService = authService;
         this.stage = stage;

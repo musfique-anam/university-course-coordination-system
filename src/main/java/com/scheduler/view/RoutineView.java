@@ -1,7 +1,7 @@
 package com.scheduler.view;
 
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.util.UIStyles;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class RoutineView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final ObservableList<RoutineEntry> list = FXCollections.observableArrayList();
     private FilteredList<RoutineEntry> filtered;
     private final TableView<RoutineEntry> table = new TableView<>();
@@ -29,7 +29,7 @@ public class RoutineView {
     private ComboBox<String> teacherFilter;
     private ComboBox<String> dayFilter;
 
-    public RoutineView(FileStorage storage) {
+    public RoutineView(DatabaseStorage storage) {
         this.storage = storage;
         this.filtered = new FilteredList<>(list, p -> true);
         this.root = build();

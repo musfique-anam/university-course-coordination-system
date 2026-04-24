@@ -1,7 +1,7 @@
 package com.scheduler.view;
 
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.util.UIStyles;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
@@ -13,13 +13,13 @@ import javafx.scene.layout.*;
 import java.util.List;
 
 public class RoomAssignmentView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final ObservableList<Room> list = FXCollections.observableArrayList();
     private FilteredList<Room> filtered;
     private final TableView<Room> table = new TableView<>();
     private final VBox root;
 
-    public RoomAssignmentView(FileStorage storage) {
+    public RoomAssignmentView(DatabaseStorage storage) {
         this.storage = storage;
         this.root = build();
     }

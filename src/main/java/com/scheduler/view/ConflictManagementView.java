@@ -1,7 +1,7 @@
 package com.scheduler.view;
 
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.util.TimeRules;
 import com.scheduler.util.UIStyles;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ConflictManagementView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final VBox root;
     private final TabPane tabPane;
     private ListView<String> classConflictList;
@@ -24,7 +24,7 @@ public class ConflictManagementView {
     private Label classSummaryLabel;
     private Label examSummaryLabel;
 
-    public ConflictManagementView(FileStorage storage) {
+    public ConflictManagementView(DatabaseStorage storage) {
         this.storage = storage;
         this.tabPane = new TabPane();
         this.root = build();

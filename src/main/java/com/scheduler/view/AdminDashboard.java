@@ -2,7 +2,7 @@ package com.scheduler.view;
 
 import com.scheduler.auth.AuthService;
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage; // <-- MUST BE DatabaseStorage
 import com.scheduler.util.UIStyles;
 import javafx.animation.*;
 import javafx.geometry.*;
@@ -22,14 +22,15 @@ import java.util.stream.Collectors;
 
 public class AdminDashboard {
 
-    private final FileStorage storage;
+    private final DatabaseStorage storage; // <-- MUST BE DatabaseStorage
     private final AuthService authService;
     private final Stage stage;
     private final BorderPane root;
-    private final StackPane contentPane;
+    private StackPane contentPane;
     private Button activeMenuBtn = null;
 
-    public AdminDashboard(FileStorage storage, AuthService authService, Stage stage) {
+    // <-- MUST BE DatabaseStorage
+    public AdminDashboard(DatabaseStorage storage, AuthService authService, Stage stage) {
         this.storage = storage;
         this.authService = authService;
         this.stage = stage;

@@ -1,7 +1,7 @@
 package com.scheduler.view;
 
 import com.scheduler.model.Department;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,13 +18,13 @@ import java.util.Optional;
 
 public class DepartmentManageView {
 
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final ObservableList<Department> list = FXCollections.observableArrayList();
     private final TableView<Department> table = new TableView<>();
     private final VBox root;
     private final Label statsBadge = new Label();
 
-    public DepartmentManageView(FileStorage storage) {
+    public DepartmentManageView(DatabaseStorage storage) {
         this.storage = storage;
         this.root = build();
         loadInitialData();

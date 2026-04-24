@@ -2,7 +2,7 @@ package com.scheduler.view;
 
 import com.scheduler.model.*;
 import com.scheduler.service.RoutineGenerator;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.util.UIStyles;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GenerateRoutineView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final boolean isExam;
     private final VBox root;
     private VBox deptCheckBoxes;
@@ -25,7 +25,7 @@ public class GenerateRoutineView {
     private ProgressIndicator progress;
     private Button generateBtn;
 
-    public GenerateRoutineView(FileStorage storage, boolean isExam) {
+    public GenerateRoutineView(DatabaseStorage storage, boolean isExam) {
         this.storage = storage;
         this.isExam = isExam;
         this.root = build();

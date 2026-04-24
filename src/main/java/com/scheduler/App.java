@@ -4,9 +4,7 @@ import com.scheduler.auth.AuthService;
 import com.scheduler.model.Department;
 import com.scheduler.model.Room;
 import com.scheduler.model.RoomType;
-import com.scheduler.storage.FileStorage;
-import com.scheduler.storage.StorageService;
-import com.scheduler.util.DataSeeder;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.view.SplashView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -17,10 +15,11 @@ import java.util.List;
 
 public class App extends Application {
 
-    private static FileStorage storage;
+    // Swapped from FileStorage to DatabaseStorage
+    private static DatabaseStorage storage;
     private static AuthService authService;
 
-    public static FileStorage getStorage() {
+    public static DatabaseStorage getStorage() {
         return storage;
     }
 
@@ -30,11 +29,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Initialize storage and auth
-        storage = new FileStorage();
+        // Initialize SQLite database storage and auth
+        storage = new DatabaseStorage();
         authService = new AuthService(storage);
 
-        // Seed base data
+        // Seed base data (Now inserts into SQLite if the tables are empty)
         seedInitialData();
 
         // Show splash screen

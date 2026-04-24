@@ -52,3 +52,10 @@ Or run main class `com.scheduler.App` from VS Code (with Java extension).
 
 - **Admin**: ID `admin`, Password `admin123`
 - **Teacher**: Create via Admin → Teachers → Add Teacher (set ID and password).
+
+testing the db in terminal
+sqlite3 scheduler.db
+.mode box <!--  /Turn on the clean table formatting: -->
+SELECT * FROM departments;
+SELECT * FROM rooms;
+.quit

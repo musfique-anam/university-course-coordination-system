@@ -1,7 +1,7 @@
 package com.scheduler.view;
 
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.util.UIStyles;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,13 +17,13 @@ import javafx.scene.layout.*;
 import java.util.*;
 
 public class BatchManageView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final ObservableList<Batch> list = FXCollections.observableArrayList();
     private FilteredList<Batch> filteredList;
     private final TableView<Batch> table = new TableView<>();
     private final VBox root;
 
-    public BatchManageView(FileStorage storage) {
+    public BatchManageView(DatabaseStorage storage) {
         this.storage = storage;
         this.root = build();
     }

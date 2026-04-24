@@ -1,33 +1,32 @@
 package com.scheduler.auth;
 
 import com.scheduler.model.Teacher;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Admin: hardcoded.
- * Teacher: file-based login (account created by Admin).
+ * Teacher: database-based login (account created by Admin).
  */
 public class AuthService {
 
     private static final String ADMIN_ID = "admin";
     private static final String ADMIN_PASSWORD = "admin123";
 
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private String currentUserId;
     private boolean isAdmin;
 
-    public AuthService(FileStorage storage) {
+    public AuthService(DatabaseStorage storage) {
         this.storage = storage;
         
-        // Add shutdown hook for auto-save on application exit
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("🔄 Application shutting down - auto-saving data...");
-            storage.saveAllToJson();
-            System.out.println("✅ Data saved successfully");
-        }));
+        /* * Note: The shutdown hook for auto-saving has been removed.
+         * By migrating to SQLite, data is written instantly to the disk 
+         * during operations. We no longer need to serialize the entire 
+         * state of the application into a JSON file when the app closes.
+         */
     }
 
     public boolean loginAdmin(String id, String password) {
@@ -40,6 +39,7 @@ public class AuthService {
     }
 
     public boolean loginTeacher(String teacherId, String password) {
+        // This now queries the SQLite database
         List<Teacher> teachers = storage.loadTeachers();
 
         Optional<Teacher> found = teachers.stream()
@@ -61,10 +61,7 @@ public class AuthService {
     }
 
     public void logout() {
-        // Save all data before logout
-        storage.saveAllToJson();
-        System.out.println("✅ Data saved before logout");
-        
+        System.out.println("✅ User logged out securely.");
         currentUserId = null;
         isAdmin = false;
     }

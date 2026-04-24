@@ -1,7 +1,8 @@
 package com.scheduler.view;
 
 import com.scheduler.model.RoutineEntry;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.util.UIStyles;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -15,11 +16,11 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class TeacherRoutineView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final String teacherId;
     private final VBox root;
 
-    public TeacherRoutineView(FileStorage storage, String teacherId) {
+    public TeacherRoutineView(DatabaseStorage storage, String teacherId) {
         this.storage = storage;
         this.teacherId = teacherId;
         this.root = build();

@@ -2,7 +2,7 @@ package com.scheduler.view;
 
 import com.scheduler.auth.AuthService;
 import com.scheduler.model.*;
-import com.scheduler.storage.FileStorage;
+import com.scheduler.storage.DatabaseStorage;
 import com.scheduler.util.TimeRules;
 import com.scheduler.util.UIStyles;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,14 +16,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class TeacherManageView {
-    private final FileStorage storage;
+    private final DatabaseStorage storage;
     private final ObservableList<Teacher> masterList = FXCollections.observableArrayList();
     private final FilteredList<Teacher> filteredList;
     private final TableView<Teacher> table = new TableView<>();
     private final VBox root;
     private ComboBox<String> deptFilterCombo;
 
-    public TeacherManageView(FileStorage storage) {
+    public TeacherManageView(DatabaseStorage storage) {
         this.storage = storage;
         this.filteredList = new FilteredList<>(masterList, p -> true);
         this.root = build();
